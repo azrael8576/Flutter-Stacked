@@ -10,7 +10,8 @@ class LoginView extends StatelessWidget {
         body: Center(
           child: Text(model.title),
         ),
-        floatingActionButton: FloatingActionButton(onPressed: null),
+        floatingActionButton:
+            FloatingActionButton(onPressed: () => model.navigateToHome()),
       ),
       viewModelBuilder: () => LoginViewModel(),
     );
