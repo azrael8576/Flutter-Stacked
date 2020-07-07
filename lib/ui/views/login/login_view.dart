@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterstacked/logger.dart';
 import 'package:flutterstacked/ui/shared/app_colors.dart';
 import 'package:flutterstacked/ui/shared/ui_helpers.dart';
 import 'package:flutterstacked/ui/views/login/login_viewmodel.dart';
@@ -8,6 +9,7 @@ import 'package:flutterstacked/ui/widgets/textfield_widget.dart';
 import 'package:flutterstacked/ui/widgets/wave_widget.dart';
 import 'package:stacked/stacked.dart';
 
+final log = getLogger('LoginView');
 class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -123,7 +125,7 @@ class _AccountTextField extends ViewModelWidget<LoginViewModel> {
       suffixIconData: viewModel.isValid ? Icons.check : null,
       onChange: (value) {
         viewModel.isValidEmail(value);
-//                          tokenBloc.userId = value;
+        viewModel.account = value;
       },
     );
   }
@@ -142,37 +144,42 @@ class _PasswordTextField extends ViewModelWidget<LoginViewModel> {
       suffixIconData:
           viewModel.isVisible ? Icons.visibility : Icons.visibility_off,
       onChange: (value) {
-//        tokenBloc.password = value;
+        viewModel.password = value;
       },
     );
   }
 }
 
 class _LoginButton extends ViewModelWidget<LoginViewModel> {
+  _LoginButton([Key key]) : super(key: key, reactive: false);
+
   @override
   Widget build(BuildContext context, LoginViewModel viewModel) {
     return ButtonWidget(
       title: 'Login',
       onTap: () async {
-//        var loginStatus = await AppModule.to.bloc<TokenBloc>().login();
-//        if (loginStatus == true) {
-          viewModel.navigateToHome();
-//        }
+        bool isLogin = await viewModel.loginAction();
+        if (!isLogin) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Status ${viewModel.tokenModel.status}: ${viewModel.tokenModel.errDesc}'),
+            ),
+          );
+        }
       },
       hasBorder: false,
     );
   }
 }
 
-
 class _SignUpButton extends ViewModelWidget<LoginViewModel> {
+  _SignUpButton([Key key]) : super(key: key, reactive: false);
+
   @override
   Widget build(BuildContext context, LoginViewModel viewModel) {
     return ButtonWidget(
       title: 'SignUp',
-      onTap: () async {
-
-      },
+      onTap: () async {},
       hasBorder: true,
     );
   }
