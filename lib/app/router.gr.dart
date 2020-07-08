@@ -9,20 +9,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutterstacked/ui/views/login/login_view.dart';
 import 'package:flutterstacked/ui/views/home/home_view.dart';
-
-import '../logger.dart';
+import 'package:flutterstacked/ui/views/demo/demo_view.dart';
 
 abstract class Routes {
   static const loginView = '/';
   static const homeView = '/home-view';
+  static const demoView = '/demo-view';
   static const all = {
     loginView,
     homeView,
+    demoView,
   };
 }
 
 class Router extends RouterBase {
-  final log = getLogger('Router');
   @override
   Set<String> get allRoutes => Routes.all;
 
@@ -32,7 +32,6 @@ class Router extends RouterBase {
 
   @override
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    log.i('name: ${settings.name} | arguments: ${settings.arguments}');
     switch (settings.name) {
       case Routes.loginView:
         return MaterialPageRoute<dynamic>(
@@ -42,6 +41,11 @@ class Router extends RouterBase {
       case Routes.homeView:
         return MaterialPageRoute<dynamic>(
           builder: (context) => HomeView(),
+          settings: settings,
+        );
+      case Routes.demoView:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => DemoView(),
           settings: settings,
         );
       default:

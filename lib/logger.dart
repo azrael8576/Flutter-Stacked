@@ -6,6 +6,7 @@ Logger getLogger(String className) {
 
 class SimpleLogPrinter extends LogPrinter {
   final String className;
+
   SimpleLogPrinter(this.className);
 
   @override

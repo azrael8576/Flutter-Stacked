@@ -6,7 +6,8 @@ class ButtonWidget extends StatelessWidget {
   final bool hasBorder;
   final Function onTap;
 
-  const ButtonWidget({Key key, this.title, this.hasBorder, this.onTap}) : super(key: key);
+  const ButtonWidget({Key key, this.title, this.hasBorder, this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

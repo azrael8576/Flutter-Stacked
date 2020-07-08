@@ -27,5 +27,6 @@ class InvalidInputException extends NetworkException {
 }
 
 class InvalidAuthorizedException extends NetworkException {
-  InvalidAuthorizedException([String message]) : super(message, "Invalid Authorized: ");
+  InvalidAuthorizedException([String message])
+      : super(message, "Invalid Authorized: ");
 }

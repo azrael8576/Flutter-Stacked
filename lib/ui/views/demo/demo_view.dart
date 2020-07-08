@@ -1,43 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutterstacked/logger.dart';
 import 'package:flutterstacked/ui/shared/app_colors.dart';
-import 'package:flutterstacked/ui/widgets/custom_drawer_scaffold.dart';
+import 'package:flutterstacked/ui/widgets/custom_drawer_flip_scaffold.dart';
 import 'package:stacked/stacked.dart';
 
-import 'home_viewmodel.dart';
+import 'demo_viewmodel.dart';
 
-final log = getLogger('HomeView');
+final log = getLogger('DemoView');
 bool _isButtonTapped = false;
 
-class HomeView extends StatelessWidget {
+class DemoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<HomeViewModel>.reactive(
+    return ViewModelBuilder<DemoViewModel>.reactive(
       builder: (context, model, child) => Scaffold(
-        body: CustomDrawerScaffold(
+        body: CustomDrawerFlipScaffold(
           drawerWidget: _MyDrawer(),
           childWidget: _MyChild(),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            if (!_isButtonTapped) {
-              _isButtonTapped = true;
-              await model.navigateToDemo();
-              _isButtonTapped = false;
-            }
-          },
-        ),
+        floatingActionButton: FloatingActionButton(onPressed: null),
       ),
-      viewModelBuilder: () => HomeViewModel(),
+      viewModelBuilder: () => DemoViewModel(),
     );
   }
 }
 
-class _MyDrawer extends ViewModelWidget<HomeViewModel> {
+class _MyDrawer extends ViewModelWidget<DemoViewModel> {
   const _MyDrawer([Key key]) : super(key: key, reactive: true);
 
   @override
-  Widget build(BuildContext context, HomeViewModel viewModel) {
+  Widget build(BuildContext context, DemoViewModel viewModel) {
     return SizedBox(
       width: 300,
       height: double.infinity,
@@ -90,11 +82,11 @@ class _MyDrawer extends ViewModelWidget<HomeViewModel> {
   }
 }
 
-class _MyChild extends ViewModelWidget<HomeViewModel> {
+class _MyChild extends ViewModelWidget<DemoViewModel> {
   const _MyChild([Key key]) : super(key: key, reactive: true);
 
   @override
-  Widget build(BuildContext context, HomeViewModel viewModel) {
+  Widget build(BuildContext context, DemoViewModel viewModel) {
     return Container(
       color: AppColors.white,
       child: Center(

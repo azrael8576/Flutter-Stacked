@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutterstacked/ui/shared/app_colors.dart';
 
-class CustomDrawerWidget extends StatefulWidget {
+class CustomDrawerScaffold extends StatefulWidget {
   final Widget drawerWidget;
   final Widget childWidget;
 
-  CustomDrawerWidget({
+  CustomDrawerScaffold({
     Key key,
     this.drawerWidget,
     this.childWidget,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _CustomDrawerWidgetState();
+  State<StatefulWidget> createState() => _CustomDrawerScaffoldState();
 }
 
-class _CustomDrawerWidgetState extends State<CustomDrawerWidget>
+class _CustomDrawerScaffoldState extends State<CustomDrawerScaffold>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
-  final double maxSlide = 225.0;
-  final double minDragStartEdge = 225.0;
-  final double maxDragStartEdge = 225.0;
+  final double maxSlide = 300.0;
+  final double minDragStartEdge = 300.0;
+  final double maxDragStartEdge = 300.0;
   bool _canBeDragged;
 
   @override
@@ -51,31 +52,36 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget>
           builder: (context, _) {
             double slide = maxSlide * _animationController.value;
             double scale = 1 - (_animationController.value * 0.3);
-            return Stack(
-              children: <Widget>[
-                widget.drawerWidget,
-                Transform(
-                  transform: Matrix4.identity()
-                    ..translate(slide)
-                    ..scale(scale),
-                  alignment: Alignment.centerLeft,
-                  child: widget.childWidget,
-                ),
-              ],
+            return Material(
+              color: AppColors.mediumBlue,
+              child: Stack(
+                children: <Widget>[
+                  widget.drawerWidget,
+                  Transform(
+                    transform: Matrix4.identity()
+                      ..translate(slide)
+                      ..scale(scale),
+                    alignment: Alignment.centerLeft,
+                    child: widget.childWidget,
+                  ),
+                ],
+              ),
             );
           }),
     );
   }
 
   void _onDragStart(DragStartDetails details) {
-    bool isDragOpenFromLeft = _animationController.isDismissed && details.globalPosition.dx < minDragStartEdge;
-    bool isDragCloseFromRight = _animationController.isCompleted && details.globalPosition.dx > maxDragStartEdge;
+    bool isDragOpenFromLeft = _animationController.isDismissed &&
+        details.globalPosition.dx < minDragStartEdge;
+    bool isDragCloseFromRight = _animationController.isCompleted &&
+        details.globalPosition.dx > maxDragStartEdge;
 
     _canBeDragged = isDragOpenFromLeft || isDragCloseFromRight;
   }
 
   void _onDragUpdate(DragUpdateDetails details) {
-    if(_canBeDragged) {
+    if (_canBeDragged) {
       double delta = details.primaryDelta / maxSlide;
       _animationController.value += delta;
     }
@@ -86,7 +92,8 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget>
       return;
     }
     if (details.velocity.pixelsPerSecond.dx.abs() >= 365.0) {
-      double visualVelocity = details.velocity.pixelsPerSecond.dx / MediaQuery.of(context).size.width;
+      double visualVelocity = details.velocity.pixelsPerSecond.dx /
+          MediaQuery.of(context).size.width;
       _animationController.fling(velocity: visualVelocity);
     } else if (_animationController.value < 0.5) {
       open();
@@ -95,7 +102,11 @@ class _CustomDrawerWidgetState extends State<CustomDrawerWidget>
     }
   }
 
-  void open() {_animationController.forward();}
+  void open() {
+    _animationController.forward();
+  }
 
-  void close() {_animationController.reverse();}
+  void close() {
+    _animationController.reverse();
+  }
 }

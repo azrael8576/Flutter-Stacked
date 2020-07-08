@@ -10,6 +10,8 @@ import 'package:flutterstacked/ui/widgets/wave_widget.dart';
 import 'package:stacked/stacked.dart';
 
 final log = getLogger('LoginView');
+bool _isButtonTapped = false;
+
 class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -158,13 +160,18 @@ class _LoginButton extends ViewModelWidget<LoginViewModel> {
     return ButtonWidget(
       title: 'Login',
       onTap: () async {
-        bool isLogin = await viewModel.loginAction();
-        if (!isLogin) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Status ${viewModel.tokenModel.status}: ${viewModel.tokenModel.errDesc}'),
-            ),
-          );
+        if (!_isButtonTapped) {
+          _isButtonTapped = true;
+          bool isLogin = await viewModel.loginAction();
+          if (!isLogin) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                    'Status ${viewModel.tokenModel.status}: ${viewModel.tokenModel.errDesc}'),
+              ),
+            );
+          }
+          _isButtonTapped = false;
         }
       },
       hasBorder: false,
