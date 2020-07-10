@@ -18,7 +18,9 @@ class DemoView extends StatelessWidget {
           drawerWidget: _MyDrawer(),
           childWidget: _MyChild(),
         ),
-        floatingActionButton: FloatingActionButton(onPressed: null),
+        floatingActionButton: FloatingActionButton(onPressed: () async {
+          await model.navigateToFlightsStepper();
+        }),
       ),
       viewModelBuilder: () => DemoViewModel(),
     );
