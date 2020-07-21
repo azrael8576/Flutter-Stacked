@@ -4,6 +4,7 @@ import 'package:flutterstacked/app/locator.dart';
 import 'package:flutterstacked/app/router.gr.dart';
 import 'package:flutterstacked/app_config.dart';
 import 'package:flutterstacked/services/token_api.dart';
+import 'package:flutterstacked/ui/views/draggable_scrollable_sheet/draggable_scrollable_sheet_view.dart';
 import 'package:flutterstacked/ui/views/flights_stepper/flights_stepper_view.dart';
 import 'package:flutterstacked/ui/views/login/login_view.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -42,9 +43,9 @@ class MyApp extends StatelessWidget {
 //      builder: DevicePreview.appBuilder, // <--- Add the builder
 //      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: Routes.loginView,
+//      initialRoute: Routes.loginView,
       //Testing only
-//      home: FlightsStepperView(),
+      home: DraggableScrollableSheetView(),
       onGenerateRoute: Router().onGenerateRoute,
       navigatorKey: locator<NavigationService>().navigatorKey,
     );
